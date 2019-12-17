@@ -79,6 +79,11 @@ body {
 
 .form-control {
   height: 64px;
+  text-align: center;
+}
+
+span {  
+  width: 75px;
 }
 
 /* input[id="9am"] {
