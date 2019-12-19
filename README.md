@@ -1,28 +1,29 @@
 # Day Planner
+Repository: https://github.com/aarkitekkt/DayPlanner
+URL: https://aarkitekkt.github.io/DayPlanner/
 ​
 ## Overview
 ​
 The purpose of this application is to provide the user with a basic day planner that allows them to organize 
-their schedule in hourly increments and save them to local storage so their information is not lost when the page is refreshed.
+their schedule in hourly increments and save them to local storage so their information is not lost when the page is refreshed.  Additionaly, each hour block will be assigned a color to show if it is in the past, present, or future.
 ​
 ### Gallery
 ​
 Home:
-![Image title](./relativeLinkToImage.png "Image title")
+![Page when loaded](./screenshots/main.JPG "Home page")
+
+Local Storage:
+![Home Page View](./screenshots.localStorage.JPG "Local Storage")
 ​
-Sign In:
-![Home Page View](./relativeLinkToImage.png "Home Page View")
-​
-Super Cool Page:
-![Home Page View](./relativeLinkToImage.png "Home Page View")
+Responsive Design:
+![Home Page View](./screenshots/responsive.JPG "Responsive Design")
 ​
 ### Problem
-​
-Currently ...
+The biggest challenge faced with this application was figuring out how to first, define the blank array that tasks are placed into and then replacing that initial variable with the array pulled from local storage.  I struggled with the local storage array being reset to its default blank state when the page was being reloaded.
 ​
 ### Solution
 ​
-My solution will ...
+My solution was to assign the global variable as tge array pulled from local storage.  When the page is loaded for the first time, or the local storage is cleared, I used an if statement to determine if there was any data in local storage and if not, dynamically create the array and save it to local storage.
 ​
 ## Tech and Features Used
 ​
@@ -39,16 +40,9 @@ Simply type a task in the appropriate hour field and click the save button next 
 ​
 ## Technical Overview
 ​
-1. The main component (PullMultiple) contains an array of the user ID's from the users input.
-2. That component has a generator function that iterates over the array and adds the ID #'s one by one to an array to be processed.
-3. For every ID # in the array to be processed, a "DataGatherer" component is created.
-4. This DataGatherer component fires off all of the api calls and renders the progress to the screen.
-5. These API calls are called in an asynchronous fashion in order to reduce strain on the server handling the queries.
-6. As the API calls are being made, links to the finished .csv files are being saved to state.
-7. The download button downloads several links at once from the saved links in state.
-8. When all API calls have finished for an ID, the next iterator of the generator function is fired and the next ID goes through it's gathering phase.
-9. The reset button cancels all API calls and bring highest component back to empty.
-​
-Link to example readme:
-​
-https://github.com/IzzleNizzle/ReadoutAssistant# DayPlanner
+1. The main array (tasks) contains an object showing the time and task for each hour listed and is pulled from local storage.
+2. A funtion (initiateTasks) runs to check if the tasks array contains any data.  If it does not, a function generates the array of objects showing the time and a blank task. If there is already data stored in local storage, a different function (showTasks) loops through the array and renders each task in the appropriate time block.
+3. Using moment.js, the current day and time are rendered into a <p> in the jumbotron element.
+4. A function (colorTimeBlocks) pulls the current hour from moment.js and compares that to each time blocks "data-hour" attribute and given whether it is less than, equal to, or greater, assigns a color to each time block to display if it is past, present, or future.
+5. When the user types a task into a time block and clicks the save icon, a fumction then takes that input, grabs its "data-index" attribute and splices the new object into the tasks array, replacing the old object in that index position.
+6. This array is saved in local storage so the information is not lost when the page is re loaded.
