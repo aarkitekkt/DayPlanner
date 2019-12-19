@@ -11,6 +11,7 @@ $(document).ready(function () {
 
     // When the save button is clicked, task input is saved to local storage.
     $("button").click(function () {
+
         tasks = JSON.parse(localStorage.getItem("tasks"));
         var taskInput = $(this).prev().val();
         var time = $(this).prev().attr("id");
