@@ -13,7 +13,7 @@ Home:
 ![Page when loaded](./screenshots/main.JPG "Home page")
 
 Local Storage:
-![Home Page View](./screenshots.localStorage.JPG "Local Storage")
+![Home Page View](./screenshots/localStorage.JPG "Local Storage")
 ​
 Responsive Design:
 ![Home Page View](./screenshots/responsive.JPG "Responsive Design")
