@@ -1,55 +1,33 @@
 $(document).ready(function () {
 
-    var tasks = [{
-        time: "9am", task: ""
-    }, {
-        time: "10am", task: ""
-    }, {
-        time: "11am", task: ""
-    }, {
-        time: "12pm", task: ""
-    }, {
-        time: "1pm", task: ""
-    }, {
-        time: "2pm", task: ""
-    }, {
-        time: "3pm", task: ""
-    }, {
-        time: "4pm", task: ""
-    }, {
-        time: "5pm", task: ""
-    }];
+    var tasks = JSON.parse(localStorage.getItem("tasks"));
 
-    // localStorage.setItem("tasks", JSON.stringify(tasks));
+    initiateTasks();
 
-    // set current date and time in jumbotron
+    // Set current date and time in jumbotron
     $("#currentDay").text(moment().format('MMMM Do YYYY, h:mm:ss a'));
 
-    showTasks();
-
-    colorTime();
+    colorTimeBlocks();
 
     // When the save button is clicked, task input is saved to local storage.
     $("button").click(function () {
-        var storedTasks = JSON.parse(localStorage.getItem("tasks"));
+        tasks = JSON.parse(localStorage.getItem("tasks"));
         var taskInput = $(this).prev().val();
         var time = $(this).prev().attr("id");
         var task = { time: time, task: taskInput };
         var taskIndex = $(this).prev().attr("data-index");
-        storedTasks.splice(taskIndex, 1, task);
-        localStorage.setItem("tasks", JSON.stringify(storedTasks));
+        tasks.splice(taskIndex, 1, task);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        console.log(tasks);
     });
 
-    // Create a function to color each task block depending on if task is in the past, present, or future.
-    function colorTime() {
+    // Assign background color to each task block depending on if task is in the past, present, or future.
+    function colorTimeBlocks() {
 
         var currentHour = moment().hour();
 
         $("input").each(function () {
             var taskHour = parseInt($(this).attr("data-hour"));
-
-            console.log(currentHour);
-            console.log(taskHour);
 
             if (taskHour < currentHour) {
                 // future
@@ -61,19 +39,43 @@ $(document).ready(function () {
                 // present
                 $(this).css("background-color", "#fb7756")
             }
-            console.log(this)
         })
     }
 
-    // Create a function to get the tasks from local storage and render them in the appropriate input field.
-    function showTasks() {
+    // Determine if local storage already exists. If not, create blank array and save to local storage.
+    function initiateTasks() {
 
-        var storedTasks = JSON.parse(localStorage.getItem("tasks"));
-        console.log("show tasks on page");
-        console.log(storedTasks);
+        if (tasks == null) {
 
-        for (var i = 0; i < storedTasks.length; i++) {
-            $("#" + storedTasks[i].time).val(storedTasks[i].task);
+            tasks = [];
+
+            console.log("tasks is null");
+
+            $("input").each(function () {
+                var taskInput = $(this).val();
+                var time = $(this).attr("id");
+                var task = { time: time, task: taskInput };
+                tasks.push(task);
+            })
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            console.log(tasks);
+
+        } else {
+
+            showTasks();
         }
     }
+
+    // Get tasks from local storage and render them in the appropriate input field.
+    function showTasks() {
+
+        tasks = JSON.parse(localStorage.getItem("tasks"));
+        console.log("show tasks on page");
+        console.log(tasks);
+
+        for (var i = 0; i < tasks.length; i++) {
+            $("#" + tasks[i].time).val(tasks[i].task);
+        }
+    }
+
 })
